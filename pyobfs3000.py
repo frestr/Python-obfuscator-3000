@@ -11,7 +11,7 @@ def main():
         argv[2]
     except:
         print('Format: ./pyobfs3000.py <in_file> <out_file>')
-        return;
+        return
 
     obfs.obfuscate_file(argv[1], argv[2])
 
