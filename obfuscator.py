@@ -78,8 +78,11 @@ class Obfuscator:
         for i in range(len(line)):
             try:
                 if (line[i:i+len(old)] == old and
-                        (i == 0 or not line[i-1].isalnum()) and
-                        (i + len(old) >= len(line) or not line[i+len(old)].isalnum())):
+                        (i == 0 or 
+                        (not line[i-1].isalnum() and line[i-1] != '_')) and
+                        (i + len(old) >= len(line) or 
+                        (not line[i+len(old)].isalnum()) and line[i+len(old)]
+                        != '_')):
                     new_line += line[prev_index:i] + new
                     prev_index = i + len(old)
             except IndexError:
@@ -107,7 +110,7 @@ class Obfuscator:
         chr_replacement = self.get_random_name()
         self.nonlocal_funcs['chr'] = chr_replacement
         for line in file_cont:
-            res = re.findall('\'.+?\'', line)
+            res = re.findall('[\'|\"].+?[\'|\"]', line)
             if res != []:
                 for string in set(res):
                     new_str = ''
